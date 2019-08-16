@@ -47,16 +47,19 @@
 #undef INFINITY
 #endif
 
-#if defined(__WINDOWS__)
-#define ONE_MINUS_EPS_FLT 0.999999940395355225f
-#define ONE_MINUS_EPS_DBL 0.999999999999999888
-#define RCPOVERFLOW_FLT   2.93873587705571876e-39f
-#define RCPOVERFLOW_DBL   5.56268464626800345e-309
-#else
+// the hex float extension has been removed in gcc 6.? to be more compliant
+// with the standard but unfortunately __cpp_hex_float is still set.
+// Therefore we check for c++17 or later
+#if __cplusplus > 201500L
 #define ONE_MINUS_EPS_FLT 0x1.fffffep-1f
 #define ONE_MINUS_EPS_DBL 0x1.fffffffffffff7p-1
 #define RCPOVERFLOW_FLT   0x1p-128f
 #define RCPOVERFLOW_DBL   0x1p-1024
+#else
+#define ONE_MINUS_EPS_FLT 0.999999940395355225f
+#define ONE_MINUS_EPS_DBL 0.999999999999999888
+#define RCPOVERFLOW_FLT   2.93873587705571876e-39f
+#define RCPOVERFLOW_DBL   5.56268464626800345e-309
 #endif
 
 #define M_E_FLT           2.71828182845904523536f
